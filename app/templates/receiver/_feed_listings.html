@@ -1,18 +1,84 @@
 <div id="live-feed-container" 
-     hx-get="{{ url_for('receiver.feed') }}" 
+     hx-get="{{ url_for('receiver.feed', radius=radius_filter, sort_by=sort_by, diet=diet_filter, lat=current_lat, lng=current_lng) }}" 
      hx-trigger="every 15s" 
      hx-target="#live-feed-container" 
      hx-swap="outerHTML">
 
-  <div class="feed-live-status-bar">
-    <div class="live-indicator">
-      <span class="pulse-dot"></span>
-      <span>Live Feed</span>
-      <span class="refresh-interval">• Auto-refreshes every 15s</span>
+  <!-- Hyperlocal & Urgency Control Toolbar -->
+  <div class="hyperlocal-toolbar">
+    <div class="toolbar-row">
+      <!-- GPS Detection & Geolocation -->
+      <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+        <button type="button" class="btn-gps-pill" id="gps-action-btn" onclick="detectLiveGPS(this)">
+          <i class="bi bi-crosshair2"></i> Detect My Live GPS
+        </button>
+        <span id="gps-status-indicator" style="font-size: 0.8rem; color: var(--gray-600);">
+          <i class="bi bi-pin-map-fill text-danger"></i> Showing distances near <strong>{{ current_user.city }}</strong>
+        </span>
+      </div>
+
+      <!-- Live Auto-refresh Indicator -->
+      <div class="live-indicator" style="font-size: 0.8rem;">
+        <span class="pulse-dot"></span>
+        <span>Live Feed</span>
+        <span class="refresh-interval">• Auto-refreshes every 15s</span>
+        <span class="htmx-indicator live-spinner">
+          <i class="bi bi-arrow-repeat spin"></i>
+        </span>
+      </div>
     </div>
-    <span class="htmx-indicator live-spinner">
-      <i class="bi bi-arrow-repeat spin"></i> Checking for new meals...
-    </span>
+
+    <div class="toolbar-row" style="border-top: 1px solid var(--gray-100); padding-top: 0.65rem;">
+      <!-- Radius Filter Pills -->
+      <div class="filter-group">
+        <span class="filter-label"><i class="bi bi-compass-fill"></i> Radius:</span>
+        <a class="filter-pill {{ 'active' if radius_filter == 'all' or not radius_filter else '' }}"
+           hx-get="{{ url_for('receiver.feed', radius='all', sort_by=sort_by, diet=diet_filter, lat=current_lat, lng=current_lng) }}"
+           hx-target="#live-feed-container" hx-swap="outerHTML">All City</a>
+        <a class="filter-pill {{ 'active' if radius_filter == '5' else '' }}"
+           hx-get="{{ url_for('receiver.feed', radius='5', sort_by=sort_by, diet=diet_filter, lat=current_lat, lng=current_lng) }}"
+           hx-target="#live-feed-container" hx-swap="outerHTML">≤ 5 km</a>
+        <a class="filter-pill {{ 'active' if radius_filter == '10' else '' }}"
+           hx-get="{{ url_for('receiver.feed', radius='10', sort_by=sort_by, diet=diet_filter, lat=current_lat, lng=current_lng) }}"
+           hx-target="#live-feed-container" hx-swap="outerHTML">≤ 10 km</a>
+        <a class="filter-pill {{ 'active' if radius_filter == '25' else '' }}"
+           hx-get="{{ url_for('receiver.feed', radius='25', sort_by=sort_by, diet=diet_filter, lat=current_lat, lng=current_lng) }}"
+           hx-target="#live-feed-container" hx-swap="outerHTML">≤ 25 km</a>
+      </div>
+
+      <!-- Sorting Group -->
+      <div class="filter-group">
+        <span class="filter-label"><i class="bi bi-sort-numeric-down"></i> Sort:</span>
+        <a class="filter-pill {{ 'active' if sort_by == 'urgency' or not sort_by else '' }}"
+           hx-get="{{ url_for('receiver.feed', radius=radius_filter, sort_by='urgency', diet=diet_filter, lat=current_lat, lng=current_lng) }}"
+           hx-target="#live-feed-container" hx-swap="outerHTML" title="Prioritize food expiring soonest within reachable distance">
+          🚨 Most Urgent
+        </a>
+        <a class="filter-pill {{ 'active' if sort_by == 'distance' else '' }}"
+           hx-get="{{ url_for('receiver.feed', radius=radius_filter, sort_by='distance', diet=diet_filter, lat=current_lat, lng=current_lng) }}"
+           hx-target="#live-feed-container" hx-swap="outerHTML" title="Closest meals to you first">
+          📍 Nearest
+        </a>
+        <a class="filter-pill {{ 'active' if sort_by == 'newest' else '' }}"
+           hx-get="{{ url_for('receiver.feed', radius=radius_filter, sort_by='newest', diet=diet_filter, lat=current_lat, lng=current_lng) }}"
+           hx-target="#live-feed-container" hx-swap="outerHTML">
+          ✨ Newest
+        </a>
+      </div>
+
+      <!-- Dietary Filter -->
+      <div class="filter-group">
+        <a class="filter-pill {{ 'active' if diet_filter == 'all' or not diet_filter else '' }}"
+           hx-get="{{ url_for('receiver.feed', radius=radius_filter, sort_by=sort_by, diet='all', lat=current_lat, lng=current_lng) }}"
+           hx-target="#live-feed-container" hx-swap="outerHTML">All Food</a>
+        <a class="filter-pill {{ 'active' if diet_filter == 'veg' else '' }}"
+           hx-get="{{ url_for('receiver.feed', radius=radius_filter, sort_by=sort_by, diet='veg', lat=current_lat, lng=current_lng) }}"
+           hx-target="#live-feed-container" hx-swap="outerHTML">🌿 Veg Only</a>
+        <a class="filter-pill {{ 'active' if diet_filter == 'nonveg' else '' }}"
+           hx-get="{{ url_for('receiver.feed', radius=radius_filter, sort_by=sort_by, diet='nonveg', lat=current_lat, lng=current_lng) }}"
+           hx-target="#live-feed-container" hx-swap="outerHTML">🍖 Non-Veg</a>
+      </div>
+    </div>
   </div>
 
   {% if listings %}
@@ -24,11 +90,38 @@
   {% else %}
     <div class="empty-state">
       <div style="font-size: 3rem; margin-bottom: 1rem;"><i class="bi bi-inbox text-muted"></i></div>
-      <h3>No Open Food Listings in {{ current_user.city }} Right Now</h3>
-      <p>All surplus meals have been claimed or none are currently available. This feed will update automatically when fresh meals are posted!</p>
-      <a href="{{ url_for('receiver.feed') }}" class="btn btn-outline">
-        <i class="bi bi-arrow-clockwise"></i> Refresh Feed Now
+      <h3>No Food Listings Match Your Filter Criteria</h3>
+      <p>Try widening your search radius (e.g. "All City") or switching diet options. The live feed checks automatically every 15s for new posts!</p>
+      <a class="btn btn-outline"
+         hx-get="{{ url_for('receiver.feed', radius='all', sort_by='urgency', diet='all') }}"
+         hx-target="#live-feed-container" hx-swap="outerHTML">
+        <i class="bi bi-arrow-clockwise"></i> Reset Filters to All City
       </a>
     </div>
   {% endif %}
+
+  <script>
+    function detectLiveGPS(btn) {
+      if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser.");
+        return;
+      }
+      btn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Locating...';
+      navigator.geolocation.getCurrentPosition(
+        function(pos) {
+          var lat = pos.coords.latitude.toFixed(4);
+          var lng = pos.coords.longitude.toFixed(4);
+          btn.innerHTML = '<i class="bi bi-check2-circle"></i> GPS Locked';
+          btn.classList.add('gps-active');
+          var url = "{{ url_for('receiver.feed') }}?radius={{ radius_filter }}&sort_by={{ sort_by }}&diet={{ diet_filter }}&lat=" + lat + "&lng=" + lng;
+          htmx.ajax('GET', url, {target: '#live-feed-container', swap: 'outerHTML'});
+        },
+        function(err) {
+          btn.innerHTML = '<i class="bi bi-crosshair2"></i> GPS Denied (Using City)';
+          alert("Location access was denied or timed out. Showing city centroid distances.");
+        },
+        { timeout: 8000, maximumAge: 60000 }
+      );
+    }
+  </script>
 </div>

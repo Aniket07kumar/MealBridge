@@ -12,13 +12,24 @@ def index():
         return redirect(url_for("main.dashboard"))
 
     # Live platform impact metrics
-    total_meals_rescued = (
-        db.session.query(db.func.sum(Listing.quantity))
-        .filter(Listing.status == COLLECTED)
+    from app.models import ListingClaim
+    collected_claims_sum = (
+        db.session.query(db.func.sum(ListingClaim.plates_claimed))
+        .filter(ListingClaim.status == COLLECTED)
         .scalar()
         or 0
     )
-    total_completed_pickups = Listing.query.filter_by(status=COLLECTED).count()
+    legacy_collected_sum = (
+        db.session.query(db.func.sum(Listing.quantity))
+        .filter(Listing.status == COLLECTED, ~Listing.claims.any())
+        .scalar()
+        or 0
+    )
+    total_meals_rescued = int(collected_claims_sum + legacy_collected_sum)
+
+    collected_claims_count = ListingClaim.query.filter_by(status=COLLECTED).count()
+    legacy_collected_count = Listing.query.filter(Listing.status == COLLECTED, ~Listing.claims.any()).count()
+    total_completed_pickups = collected_claims_count + legacy_collected_count
     total_verified_ngos = User.query.filter_by(role=ROLE_RECEIVER, is_approved=True).count()
     total_active_donors = User.query.filter_by(role=ROLE_DONOR).count()
 

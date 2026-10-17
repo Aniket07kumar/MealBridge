@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField, BooleanField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired, Length
+from wtforms import SelectField, BooleanField, TextAreaField, StringField, HiddenField, SubmitField
+from wtforms.validators import DataRequired, Length, Optional
 from app.catalog import FOODS, CITIES, QUANTITY_CHOICES, BEST_BEFORE_CHOICES, PACKAGING_CHOICES
 
 
@@ -27,11 +27,25 @@ class ListingForm(FlaskForm):
         "Vegetarian Meal",
         default=True,
     )
+    allow_partial_claim = BooleanField(
+        "Allow Partial / Pooled Claiming (Multiple NGOs can claim portions of this meal)",
+        default=True,
+    )
     city = SelectField(
         "Pickup City",
         validators=[DataRequired()],
         choices=[(city, city) for city in CITIES],
     )
+    locality = StringField(
+        "Locality / Area Landmark",
+        validators=[Optional(), Length(max=100)],
+        render_kw={
+            "placeholder": "e.g., Koramangala 5th Block, Indiranagar 100ft Rd, Powai, etc.",
+        },
+    )
+    latitude = HiddenField("Latitude")
+    longitude = HiddenField("Longitude")
+
     best_before_hours = SelectField(
         "Best Before / Consume Within",
         validators=[DataRequired()],
@@ -47,3 +61,4 @@ class ListingForm(FlaskForm):
         },
     )
     submit = SubmitField("Post Food Listing")
+

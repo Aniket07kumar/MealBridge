@@ -1,4 +1,4 @@
-{% set badge_status = listing.status if listing else status %}
+{% set badge_status = (listing.claim_status if (listing and listing.claim_status) else (listing.status if listing else status)) %}
 <span class="status-badge status-{{ badge_status }}">
   {% if badge_status == 'OPEN' %}
     ● Open for Claim

@@ -87,23 +87,48 @@
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
-          <!-- 6. Veg / Non-Veg Toggle -->
-          <div class="form-group" style="display: flex; flex-direction: column; justify-content: center;">
-            <label class="form-label">Dietary Classification</label>
-            <label class="form-check" style="margin-top: 0.5rem;">
-              {{ form.is_veg(id="isVegCheckbox") }}
-              <span style="font-size: 0.95rem; font-weight: 600;">Vegetarian Meal</span>
-            </label>
-            {% for error in form.is_veg.errors %}
+        <!-- Hidden Coordinates -->
+        {{ form.latitude(id="hiddenLat") }}
+        {{ form.longitude(id="hiddenLng") }}
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <!-- 6. Locality / Area Landmark -->
+          <div class="form-group">
+            {{ form.locality.label(class="form-label") }}
+            {{ form.locality(class="form-control") }}
+            <div style="font-size: 0.78rem; color: var(--gray-500); margin-top: 0.2rem;">
+              Enables nearby NGOs to calculate exact driving distance and arrival time.
+            </div>
+            {% for error in form.locality.errors %}
               <div class="form-error">{{ error }}</div>
             {% endfor %}
           </div>
+
+          <!-- 7. Dietary & Partial Claim Options -->
+          <div class="form-group" style="display: flex; flex-direction: column; justify-content: center;">
+            <label class="form-check" style="margin-bottom: 0.5rem;">
+              {{ form.is_veg(id="isVegCheckbox") }}
+              <span style="font-size: 0.92rem; font-weight: 600;">🌿 Vegetarian Meal</span>
+            </label>
+
+            <label class="form-check">
+              {{ form.allow_partial_claim }}
+              <span style="font-size: 0.92rem; font-weight: 600;">🍽️ Allow Partial / Pooled Claiming</span>
+            </label>
+            <div style="font-size: 0.75rem; color: var(--gray-500); margin-left: 1.5rem; margin-top: 0.15rem;">
+              Allows multiple smaller orphanages to claim portions of this meal.
+            </div>
+          </div>
         </div>
 
-        <!-- 6. Pickup Address (Only free text) -->
+        <!-- 8. Pickup Address & GPS Pin -->
         <div class="form-group">
-          {{ form.address.label(class="form-label") }}
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.5rem;">
+            {{ form.address.label(class="form-label", style="margin-bottom: 0;") }}
+            <button type="button" class="btn-gps-pill" id="btn-donor-gps" onclick="detectDonorGPS()">
+              <i class="bi bi-geo-fill"></i> Pin Live GPS Location
+            </button>
+          </div>
           {{ form.address(class="form-control") }}
           <div style="font-size: 0.8rem; color: var(--gray-500); margin-top: 0.25rem;">
             Provide exact gate, door, or landmark details for the collecting NGO team.
@@ -120,6 +145,7 @@
     </div>
   </div>
 </div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -159,5 +185,39 @@ document.addEventListener("DOMContentLoaded", function () {
     selectItem(target);
   }
 });
+
+function detectDonorGPS() {
+  const btn = document.getElementById("btn-donor-gps");
+  const latInput = document.getElementById("hiddenLat");
+  const lngInput = document.getElementById("hiddenLng");
+  if (!navigator.geolocation) {
+    alert("Geolocation is not supported by your browser.");
+    return;
+  }
+  if (btn) {
+    btn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Pinning GPS...';
+  }
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      const lat = pos.coords.latitude.toFixed(5);
+      const lng = pos.coords.longitude.toFixed(5);
+      if (latInput) latInput.value = lat;
+      if (lngInput) lngInput.value = lng;
+      if (btn) {
+        btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> GPS Pinned (' + lat + ', ' + lng + ')';
+        btn.style.background = '#e6f4ea';
+        btn.style.color = '#137333';
+        btn.style.borderColor = '#137333';
+      }
+    },
+    function(err) {
+      if (btn) {
+        btn.innerHTML = '<i class="bi bi-geo-fill"></i> Pin Live GPS Location';
+      }
+      alert("Location access was denied or timed out. You can enter your locality/area manually.");
+    },
+    { timeout: 8000, maximumAge: 60000 }
+  );
+}
 </script>
 {% endblock %}

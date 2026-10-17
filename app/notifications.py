@@ -71,17 +71,24 @@ def notify_donor_listing_claimed(listing) -> bool:
 
 def notify_receiver_food_dispatched(listing) -> bool:
     """Notifies the NGO when the donor kitchen has marked the food as dispatched."""
-    if not listing or not listing.claimed_by or not listing.claimed_by.email:
+    if not listing:
         return False
+    receiver = listing.claimed_by
+    if not receiver or not receiver.email:
+        # Check active claims for receiver email if available
+        if listing.active_claims and listing.active_claims[0].receiver:
+            receiver = listing.active_claims[0].receiver
+        else:
+            return False
 
     subject = f"Food Dispatched - {listing.food_name}"
     body = (
-        f"Hi {listing.claimed_by.name},\n\n"
+        f"Hi {receiver.name},\n\n"
         f"{listing.donor.name} has dispatched your claimed food ({listing.quantity} plates of {listing.food_name}).\n\n"
         f"Once you receive the food, please mark it as 'Collected' in your MealBridge dashboard to close the loop.\n\n"
         f"— The MealBridge Team"
     )
-    return send_email_notification(subject, listing.claimed_by.email, body)
+    return send_email_notification(subject, receiver.email, body)
 
 
 def notify_donor_food_collected(listing) -> bool:
@@ -89,10 +96,11 @@ def notify_donor_food_collected(listing) -> bool:
     if not listing or not listing.donor or not listing.donor.email:
         return False
 
+    receiver_name = listing.claimed_by.name if listing.claimed_by else "Your partner NGO"
     subject = f"Donation Completed! - {listing.food_name}"
     body = (
         f"Hi {listing.donor.name},\n\n"
-        f"{listing.claimed_by.name} has successfully collected {listing.quantity} plates of {listing.food_name}!\n\n"
+        f"{receiver_name} has successfully collected {listing.quantity} plates of {listing.food_name}!\n\n"
         f"Your CSR / Tax Donation Certificate is now generated and ready to download on your dashboard.\n\n"
         f"Thank you for making a real difference!\n\n"
         f"— The MealBridge Team"

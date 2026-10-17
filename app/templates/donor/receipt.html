@@ -194,10 +194,23 @@
         {{ listing.packaging_type | packaging_label }}
       </div>
     </div>
-    <div class="cert-detail-item">
-      <div class="cert-detail-label">Beneficiary NGO Partner</div>
+    <div class="cert-detail-item" {% if listing.claims and listing.claims|length > 1 %}style="grid-column: 1 / -1;"{% endif %}>
+      <div class="cert-detail-label">Beneficiary NGO Partner(s)</div>
       <div class="cert-detail-val">
-        {{ listing.claimed_by.name if listing.claimed_by else 'Verified Community NGO' }}
+        {% if listing.claims and listing.claims|length > 1 %}
+          <div style="display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.3rem;">
+            {% for c in listing.claims %}
+              <div style="font-size: 0.9rem; display: flex; justify-content: space-between; border-bottom: 1px dashed #e5e7eb; padding-bottom: 0.2rem;">
+                <span><strong>{{ c.receiver.name }}</strong> ({{ c.receiver.city }})</span>
+                <span style="color: #059669;">{{ c.plates_claimed }} plates</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% elif listing.claimed_by %}
+          {{ listing.claimed_by.name }}
+        {% else %}
+          Verified Community NGO
+        {% endif %}
       </div>
     </div>
     <div class="cert-detail-item">
@@ -225,8 +238,14 @@
     </div>
 
     <div class="cert-sign-line">
-      <div>{{ listing.claimed_by.name if listing.claimed_by else 'Receiving NGO' }}</div>
-      <small style="color: #9ca3af;">Distribution Partner</small>
+      <div>
+        {% if listing.claims and listing.claims|length > 1 %}
+          {{ listing.claims|length }} Verified NGO Partners
+        {% else %}
+          {{ listing.claimed_by.name if listing.claimed_by else 'Receiving NGO' }}
+        {% endif %}
+      </div>
+      <small style="color: #9ca3af;">Distribution Partner{% if listing.claims and listing.claims|length > 1 %}s{% endif %}</small>
     </div>
   </div>
 </div>

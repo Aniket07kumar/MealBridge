@@ -935,4 +935,279 @@ footer {
   display: inline-block;
 }
 
+/* Hyperlocal Toolbar & Urgency Routing */
+.hyperlocal-toolbar {
+  background: #ffffff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.filter-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gray-600);
+  margin-right: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.filter-pill {
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--gray-300);
+  background: #ffffff;
+  color: var(--gray-700);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.filter-pill:hover {
+  background: var(--gray-100);
+  border-color: var(--gray-400);
+  color: var(--gray-900);
+}
+
+.filter-pill.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.25);
+}
+
+.btn-gps-pill {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.btn-gps-pill:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.btn-gps-pill.gps-active {
+  background: #10b981;
+  border-color: #059669;
+  color: #ffffff;
+}
+
+/* Urgency Badges */
+.listing-urgency-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.badge-urgency-critical {
+  background: rgba(239, 68, 68, 0.95);
+  color: #ffffff;
+  border: 1px solid #f87171;
+  animation: pulse-critical 1.5s infinite;
+}
+
+@keyframes pulse-critical {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+  50% { transform: scale(1.03); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+
+.badge-urgency-high {
+  background: rgba(245, 158, 11, 0.95);
+  color: #ffffff;
+  border: 1px solid #fbbf24;
+}
+
+.badge-urgency-moderate {
+  background: rgba(37, 99, 235, 0.9);
+  color: #ffffff;
+  border: 1px solid #60a5fa;
+}
+
+.badge-urgency-fresh {
+  background: rgba(16, 185, 129, 0.9);
+  color: #ffffff;
+  border: 1px solid #34d399;
+}
+
+.badge-urgency-expired {
+  background: rgba(100, 116, 139, 0.9);
+  color: #ffffff;
+}
+
+/* Distance Badges */
+.badge-distance {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: #b91c1c;
+  font-size: 0.82rem;
+  background: #fef2f2;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #fee2e2;
+}
+
+/* Partial / Pooled Claiming UI */
+.portion-progress-container {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.65rem;
+  margin: 0.5rem 0;
+}
+
+.portion-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.portion-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #059669);
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.claim-portion-selector {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 0.65rem;
+  margin-top: 0.5rem;
+}
+
+.portion-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gray-700);
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.portion-quick-buttons {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+
+.btn-portion {
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px solid var(--gray-300);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-portion:hover {
+  background: var(--gray-100);
+  border-color: var(--primary);
+}
+
+.btn-portion.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+.portion-input {
+  max-width: 90px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.85rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Donor Claim Pool Box */
+.claims-pool-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 0.65rem;
+  margin-top: 0.6rem;
+}
+
+.pool-header {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  margin-bottom: 0.45rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.claim-item-row {
+  background: #ffffff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.claim-item-row:last-child {
+  margin-bottom: 0;
+}
+
+.pin-input-sm {
+  width: 90px;
+  padding: 0.3rem 0.4rem;
+  font-size: 0.85rem;
+  text-align: center;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+
 

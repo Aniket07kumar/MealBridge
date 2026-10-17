@@ -11,7 +11,11 @@
       {% include 'partials/status_badge.html' %}
     </div>
 
-    {% if listing.status == 'OPEN' %}
+    {% if listing.urgency and listing.status == 'OPEN' %}
+      <div class="listing-urgency-badge {{ listing.urgency.css_class }}">
+        <span>{{ listing.urgency.label }}</span>
+      </div>
+    {% elif listing.status == 'OPEN' %}
       <div class="listing-time-badge">
         <span><i class="bi bi-clock-history"></i></span>
         <span data-expires="{{ listing.best_before.isoformat() }}Z">{{ listing.best_before | time_left }}</span>
@@ -22,14 +26,41 @@
   <div class="listing-card-body">
     <h3 class="listing-title">{{ listing.food_name }}</h3>
     <div class="listing-meta">
-      <span><i class="bi bi-people-fill text-muted"></i> <strong>{{ listing.quantity }}</strong> plates</span>
-      <span>•</span>
-      <span><i class="bi bi-geo-alt-fill text-primary" style="font-size: 0.85rem;"></i> {{ listing.city }}</span>
+      {% if listing.remaining_quantity is defined and listing.quantity and listing.remaining_quantity != listing.quantity and listing.status == 'OPEN' %}
+        <span><i class="bi bi-pie-chart-fill text-warning"></i> <strong>{{ listing.remaining_quantity }}</strong> of {{ listing.quantity }} plates left</span>
+      {% else %}
+        <span><i class="bi bi-people-fill text-muted"></i> <strong>{{ listing.quantity }}</strong> plates</span>
+      {% endif %}
+
+      {% if listing.distance_km is defined and listing.distance_km is not none %}
+        <span>•</span>
+        <span class="badge-distance" title="Estimated distance from your live location">
+          <i class="bi bi-geo-alt-fill text-danger"></i> <strong>{{ listing.distance_km }} km</strong> (~{{ listing.travel_time_mins }}m)
+        </span>
+      {% else %}
+        <span>•</span>
+        <span><i class="bi bi-geo-alt-fill text-primary" style="font-size: 0.85rem;"></i> {{ listing.city }}</span>
+      {% endif %}
+
       <span>•</span>
       <span class="badge-packaging"><i class="bi bi-box-seam"></i> {{ listing.packaging_type | packaging_label }}</span>
     </div>
 
+    {# Portion Progress Bar for Partial Claims #}
+    {% if listing.remaining_quantity is defined and listing.quantity and listing.status == 'OPEN' and listing.remaining_quantity < listing.quantity %}
+      <div class="portion-progress-container">
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--gray-600); margin-bottom: 3px;">
+          <span><i class="bi bi-check2-circle text-success"></i> Claimed: <strong>{{ listing.quantity - listing.remaining_quantity }}</strong> plates</span>
+          <span><i class="bi bi-box-arrow-in-down text-primary"></i> Available: <strong>{{ listing.remaining_quantity }}</strong> plates</span>
+        </div>
+        <div class="portion-progress-bar">
+          <div class="portion-progress-fill" style="width: {{ ((listing.quantity - listing.remaining_quantity) / listing.quantity * 100) | round }}%;"></div>
+        </div>
+      </div>
+    {% endif %}
+
     <div class="listing-details">
+      {# DONOR VIEW DETAILS #}
       {% if viewer_role == 'donor' %}
         <p>
           <strong>Pickup Address:</strong> {{ listing.address }}
@@ -38,7 +69,59 @@
              <i class="bi bi-geo-alt-fill"></i> Maps
           </a>
         </p>
-        {% if listing.claimed_by %}
+
+        {# If multiple pooled claims exist, display the claims breakdown #}
+        {% if listing.active_claims %}
+          <div class="claims-pool-box">
+            <div class="pool-header">
+              <strong><i class="bi bi-people-fill"></i> NGO Claims Pool ({{ listing.total_claimed_plates }}/{{ listing.quantity }} plates allocated):</strong>
+              {% if listing.remaining_quantity > 0 %}
+                <span class="badge badge-sm badge-success">{{ listing.remaining_quantity }} plates open</span>
+              {% endif %}
+            </div>
+
+            {% for claim in listing.active_claims %}
+              <div class="claim-item-row">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                  <div>
+                    <strong>{{ claim.receiver.name }}</strong>
+                    <span style="font-size: 0.8rem; color: var(--gray-600);">({{ claim.plates_claimed }} plates)</span>
+                  </div>
+                  <span class="badge badge-sm badge-{{ 'success' if claim.status == 'COLLECTED' else ('info' if claim.status == 'DISPATCHED' else 'warning') }}">
+                    {{ claim.status }}
+                  </span>
+                </div>
+
+                <div class="contact-action-row" style="font-size: 0.8rem;">
+                  <span><i class="bi bi-telephone-fill"></i> <a href="tel:{{ claim.receiver.phone }}">{{ claim.receiver.phone }}</a></span>
+                  <a href="https://wa.me/{{ claim.receiver.phone | clean_phone }}?text={{ ('Hi ' ~ claim.receiver.name ~ ', this is ' ~ current_user.name ~ ' regarding your MealBridge claim for ' ~ listing.food_name ~ '.') | urlencode }}" 
+                     target="_blank" rel="noopener noreferrer" class="badge-action badge-whatsapp" style="padding: 0.15rem 0.4rem; font-size: 0.75rem;">
+                    <i class="bi bi-whatsapp"></i> WhatsApp
+                  </a>
+                </div>
+
+                {% if claim.status == 'CLAIMED' %}
+                  <form method="POST" action="{{ url_for('donor.dispatch_claim', claim_id=claim.id) }}" style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.35rem;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="text" name="pin" placeholder="Enter PIN" maxlength="4" required class="form-control pin-input-sm" title="Ask NGO team for 4-digit PIN">
+                    <button type="submit" class="btn btn-secondary btn-sm" style="font-size: 0.78rem; padding: 0.3rem 0.6rem;">
+                      <i class="bi bi-truck"></i> Verify & Dispatch
+                    </button>
+                  </form>
+                {% elif claim.status == 'DISPATCHED' %}
+                  <div style="font-size: 0.75rem; color: #2563eb; margin-top: 0.25rem;">
+                    <i class="bi bi-hourglass-split"></i> Dispatched to NGO • Awaiting their collection confirmation.
+                  </div>
+                {% elif claim.status == 'COLLECTED' %}
+                  <div style="font-size: 0.75rem; color: #16a34a; margin-top: 0.25rem;">
+                    <i class="bi bi-check-circle-fill"></i> Successfully handed over and confirmed!
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% elif listing.claimed_by %}
+          {# Legacy single claim display #}
           <p><strong>Claimed By:</strong> {{ listing.claimed_by.name }}</p>
           <div class="contact-action-row">
             <span><strong>NGO Contact:</strong> <a href="tel:{{ listing.claimed_by.phone }}"><i class="bi bi-telephone-fill"></i> {{ listing.claimed_by.phone }}</a></span>
@@ -50,12 +133,23 @@
         {% else %}
           <p class="text-muted">Awaiting nearby NGO claim.</p>
         {% endif %}
+
+      {# RECEIVER VIEW DETAILS #}
       {% elif viewer_role == 'receiver' %}
-        {% if listing.status == 'OPEN' %}
-          <p><strong>Area / City:</strong> {{ listing.city }}</p>
+        {# Use claim_status (personal claim) instead of listing.status for partial-claim my-claims view #}
+        {% set effective_status = listing.claim_status if listing.claim_status is defined and listing.claim_status else listing.status %}
+        {% if effective_status == 'OPEN' %}
+          <p><strong>Area / City:</strong> {{ listing.locality ~ ', ' if listing.locality else '' }}{{ listing.city }}</p>
           <p><strong>Packaging:</strong> {{ listing.packaging_type | packaging_label }}</p>
-          <p class="text-muted">Full pickup address and donor contact will be revealed upon claiming.</p>
+          {% if listing.allow_partial_claim %}
+            <p style="color: #059669; font-size: 0.85rem;"><i class="bi bi-pie-chart-fill"></i> <strong>Partial claiming enabled:</strong> You can claim only what your shelter needs!</p>
+          {% endif %}
+          <p class="text-muted" style="font-size: 0.85rem;">Full pickup address and donor contact will be revealed upon claiming.</p>
         {% else %}
+          {# Claimed / Dispatched / Collected view for Receiver #}
+          {% if listing.claimed_plates is defined %}
+            <p><strong>Your Claimed Quantity:</strong> <span class="badge badge-sm badge-info" style="font-size: 0.85rem;">{{ listing.claimed_plates }} plates</span></p>
+          {% endif %}
           <p><strong>Donor:</strong> {{ listing.donor.name }}</p>
           <div class="contact-action-row">
             <span><strong>Donor Phone:</strong> <a href="tel:{{ listing.donor.phone }}"><i class="bi bi-telephone-fill"></i> {{ listing.donor.phone }}</a></span>
@@ -72,10 +166,12 @@
             </a>
           </div>
 
-          {% if listing.pickup_pin and listing.claimed_by_id == current_user.id and listing.status in ['CLAIMED', 'DISPATCHED'] %}
+          {% set pin_to_show = listing.user_pickup_pin or listing.pickup_pin %}
+          {% set claim_is_active = (effective_status in ['CLAIMED', 'DISPATCHED']) %}
+          {% if pin_to_show and claim_is_active %}
             <div class="handover-pin-badge">
-              <div class="pin-title"><i class="bi bi-shield-lock-fill"></i> HANDOVER PIN</div>
-              <div class="pin-digits">{{ listing.pickup_pin }}</div>
+              <div class="pin-title"><i class="bi bi-shield-lock-fill"></i> YOUR HANDOVER PIN</div>
+              <div class="pin-digits">{{ pin_to_show }}</div>
               <small class="pin-help">Tell this 4-digit code to donor at kitchen pickup</small>
             </div>
           {% endif %}
@@ -92,7 +188,8 @@
     <div class="listing-actions">
       {# DONOR ACTIONS #}
       {% if viewer_role == 'donor' %}
-        {% if listing.status == 'CLAIMED' %}
+        {% if listing.status == 'CLAIMED' and not listing.active_claims %}
+          {# Legacy single claim fallback form #}
           <form method="POST" action="{{ url_for('donor.dispatch', id=listing.id) }}">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="donor-pin-form">
@@ -105,7 +202,7 @@
               </div>
             </div>
           </form>
-        {% elif listing.status == 'DISPATCHED' %}
+        {% elif listing.status == 'DISPATCHED' and not listing.active_claims %}
           <div class="text-muted text-center" style="font-size: 0.85rem;">
             <i class="bi bi-hourglass-split"></i> Awaiting NGO confirmation of collection.
           </div>
@@ -131,29 +228,66 @@
 
       {# RECEIVER ACTIONS #}
       {% elif viewer_role == 'receiver' %}
-        {% if listing.status == 'OPEN' %}
+        {# effective_status: personal claim status takes priority over listing status #}
+        {% set effective_status = listing.claim_status if listing.claim_status is defined and listing.claim_status else listing.status %}
+        {% if effective_status == 'OPEN' %}
           {% if current_user.is_authenticated and current_user.is_approved %}
-            <form method="POST" action="{{ url_for('receiver.claim', id=listing.id) }}">
-              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-              <button type="submit" class="btn btn-primary btn-block">
-                <i class="bi bi-hand-index-thumb-fill"></i> Claim Food Now
-              </button>
-            </form>
+            {% set available_plates = listing.remaining_quantity if listing.remaining_quantity is defined else listing.quantity %}
+            {% if listing.allow_partial_claim and available_plates > 10 %}
+              <form method="POST" action="{{ url_for('receiver.claim', id=listing.id) }}" class="claim-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="claim-portion-selector">
+                  <label class="portion-label"><i class="bi bi-pie-chart-fill"></i> Plates to Claim (Max {{ available_plates }}):</label>
+                  <div class="portion-quick-buttons">
+                    {% if available_plates >= 20 %}
+                      <button type="button" class="btn-portion" onclick="document.getElementById('plates-input-{{ listing.id }}').value=10; this.parentElement.querySelectorAll('.btn-portion').forEach(b=>b.classList.remove('active')); this.classList.add('active');">10 plates</button>
+                      <button type="button" class="btn-portion" onclick="document.getElementById('plates-input-{{ listing.id }}').value=20; this.parentElement.querySelectorAll('.btn-portion').forEach(b=>b.classList.remove('active')); this.classList.add('active');">20 plates</button>
+                    {% endif %}
+                    {% if available_plates >= 50 %}
+                      <button type="button" class="btn-portion" onclick="document.getElementById('plates-input-{{ listing.id }}').value=50; this.parentElement.querySelectorAll('.btn-portion').forEach(b=>b.classList.remove('active')); this.classList.add('active');">50 plates</button>
+                    {% endif %}
+                    <button type="button" class="btn-portion active" onclick="document.getElementById('plates-input-{{ listing.id }}').value={{ available_plates }}; this.parentElement.querySelectorAll('.btn-portion').forEach(b=>b.classList.remove('active')); this.classList.add('active');">All ({{ available_plates }})</button>
+                  </div>
+                  <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <input type="number" name="plates" id="plates-input-{{ listing.id }}" min="1" max="{{ available_plates }}" value="{{ available_plates }}" class="form-control portion-input" required>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">
+                      <i class="bi bi-hand-index-thumb-fill"></i> Claim Food
+                    </button>
+                  </div>
+                </div>
+              </form>
+            {% else %}
+              <form method="POST" action="{{ url_for('receiver.claim', id=listing.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-primary btn-block">
+                  <i class="bi bi-hand-index-thumb-fill"></i> Claim All Food ({{ available_plates }} plates)
+                </button>
+              </form>
+            {% endif %}
           {% else %}
             <a href="{{ url_for('receiver.pending') }}" class="btn btn-outline btn-block">
               <i class="bi bi-clock-history"></i> Approval Pending
             </a>
           {% endif %}
-        {% elif listing.status == 'DISPATCHED' and listing.claimed_by_id == current_user.id %}
-          <form method="POST" action="{{ url_for('receiver.collect', id=listing.id) }}">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <button type="submit" class="btn btn-primary btn-block">
-              <i class="bi bi-check-circle-fill"></i> Confirm Food Collected
-            </button>
-          </form>
-        {% elif listing.status == 'CLAIMED' and listing.claimed_by_id == current_user.id %}
+        {% elif effective_status == 'DISPATCHED' %}
+          {% if listing.current_user_claim %}
+            <form method="POST" action="{{ url_for('receiver.collect_claim', claim_id=listing.current_user_claim.id) }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn btn-primary btn-block">
+                <i class="bi bi-check-circle-fill"></i> Confirm Food Collected ({{ listing.claimed_plates }} plates)
+              </button>
+            </form>
+          {% else %}
+            <form method="POST" action="{{ url_for('receiver.collect', id=listing.id) }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn btn-primary btn-block">
+                <i class="bi bi-check-circle-fill"></i> Confirm Food Collected
+              </button>
+            </form>
+          {% endif %}
+        {% elif effective_status == 'CLAIMED' %}
           <div class="text-muted text-center" style="font-size: 0.85rem; margin-bottom: 0.6rem;">
-            Coordinate pickup with donor. Donor will verify PIN on handover.
+            Coordinate pickup with donor. Donor will verify your 4-digit PIN upon handover.
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
             <a href="tel:{{ listing.donor.phone }}" class="btn btn-outline btn-sm">
@@ -164,9 +298,9 @@
               <i class="bi bi-whatsapp"></i> WhatsApp
             </a>
           </div>
-        {% elif listing.status == 'COLLECTED' %}
+        {% elif effective_status == 'COLLECTED' %}
           <div class="text-success text-center" style="font-size: 0.85rem; font-weight: 600;">
-            <i class="bi bi-check-circle-fill"></i> Collected & Closed
+            <i class="bi bi-check-circle-fill"></i> Collected &amp; Closed
           </div>
         {% endif %}
       {% endif %}
