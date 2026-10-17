@@ -1,15 +1,61 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="100%" height="100%">
   <defs>
-    <linearGradient id="grad-poori_bhaji" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fff7ed" />
-      <stop offset="100%" stop-color="#ffffff" />
+    <linearGradient id="bg-poori_bhaji" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb" />
+      <stop offset="100%" stop-color="#fef08a" />
     </linearGradient>
+    <radialGradient id="glow-poori_bhaji" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow-poori_bhaji" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
+    <filter id="pill-shadow" x="-5%" y="-10%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
   </defs>
-  <rect width="100%" height="100%" fill="url(#grad-poori_bhaji)" />
-  <circle cx="200" cy="95" r="55" fill="#ffffff" stroke="#d97706" stroke-width="3" stroke-dasharray="4 2" />
-  <circle cx="200" cy="95" r="48" fill="#fff7ed" />
-  <text x="200" y="112" font-size="44" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">🟡</text>
-  <text x="200" y="178" font-size="18" font-weight="700" text-anchor="middle" fill="#1e293b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Poori Bhaji</text>
-  <text x="200" y="202" font-size="12" font-weight="500" text-anchor="middle" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Puffed Pooris & Aloo</text>
-  <rect x="160" y="215" width="80" height="4" rx="2" fill="#d97706" />
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="url(#bg-poori_bhaji)" rx="16" />
+  <rect width="100%" height="100%" fill="url(#glow-poori_bhaji)" rx="16" />
+
+  <!-- Diet Badge -->
+  
+        <rect x="358" y="14" width="26" height="26" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="2" />
+        <circle cx="371" cy="27" r="6" fill="#16a34a" />
+        
+
+  <!-- Food Art Centerpiece -->
+  <g id="food-art" filter="url(#shadow-poori_bhaji)">
+    
+        <ellipse cx="200" cy="170" rx="88" ry="18" fill="rgba(15,23,42,0.16)" />
+        <ellipse cx="200" cy="118" rx="86" ry="48" fill="#e2e8f0" />
+        <ellipse cx="200" cy="118" rx="80" ry="44" fill="#f8fafc" />
+        <!-- 3 Puffed Golden Balloon Pooris (Left) -->
+        <ellipse cx="146" cy="126" rx="26" ry="20" fill="#f59e0b" stroke="#d97706" stroke-width="1.2" />
+        <ellipse cx="146" cy="124" rx="23" ry="17" fill="#fbbf24" />
+        <ellipse cx="174" cy="110" rx="28" ry="22" fill="#f59e0b" stroke="#d97706" stroke-width="1.2" />
+        <ellipse cx="174" cy="108" rx="25" ry="19" fill="#fbbf24" />
+        <ellipse cx="152" cy="104" rx="24" ry="18" fill="#f59e0b" stroke="#d97706" stroke-width="1.2" />
+        <ellipse cx="152" cy="102" rx="21" ry="15" fill="#fde047" />
+        <!-- Aloo Sabzi Bowl (Right) -->
+        <ellipse cx="234" cy="118" rx="34" ry="26" fill="#9ca3af" />
+        <ellipse cx="234" cy="117" rx="30" ry="22" fill="#eab308" />
+        <!-- Spiced Potato chunks & green chili -->
+        <rect x="220" y="112" width="10" height="9" rx="2" fill="#fde047" stroke="#ca8a04" stroke-width="1" />
+        <rect x="236" y="116" width="11" height="9" rx="2" fill="#fde047" stroke="#ca8a04" stroke-width="1" />
+        <path d="M228 110 Q 236 106 242 112" stroke="#16a34a" stroke-width="2.2" stroke-linecap="round" fill="none" />
+        <circle cx="232" cy="122" r="1.8" fill="#15803d" />
+        <!-- Steam -->
+        <path d="M234 84 Q 240 70 234 56" stroke="rgba(234,179,8,0.5)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+        
+  </g>
+
+  <!-- Title Pill -->
+  <g id="label-pill" filter="url(#pill-shadow)">
+    <rect x="65" y="194" width="270" height="42" rx="21" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2" />
+    <text x="200" y="212" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Poori &amp; Aloo Sabzi</text>
+    <text x="200" y="226" font-size="9.5" font-weight="500" fill="#64748b" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Puffed Golden Pooris &amp; Spiced Potato Curry</text>
+  </g>
 </svg>

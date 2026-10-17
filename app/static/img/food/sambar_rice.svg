@@ -1,15 +1,60 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="100%" height="100%">
   <defs>
-    <linearGradient id="grad-sambar_rice" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bg-sambar_rice" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#fffbeb" />
-      <stop offset="100%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#fef08a" />
     </linearGradient>
+    <radialGradient id="glow-sambar_rice" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow-sambar_rice" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
+    <filter id="pill-shadow" x="-5%" y="-10%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
   </defs>
-  <rect width="100%" height="100%" fill="url(#grad-sambar_rice)" />
-  <circle cx="200" cy="95" r="55" fill="#ffffff" stroke="#b45309" stroke-width="3" stroke-dasharray="4 2" />
-  <circle cx="200" cy="95" r="48" fill="#fffbeb" />
-  <text x="200" y="112" font-size="44" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">🍲</text>
-  <text x="200" y="178" font-size="18" font-weight="700" text-anchor="middle" fill="#1e293b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Sambar Rice</text>
-  <text x="200" y="202" font-size="12" font-weight="500" text-anchor="middle" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Lentil Tamarind Rice</text>
-  <rect x="160" y="215" width="80" height="4" rx="2" fill="#b45309" />
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="url(#bg-sambar_rice)" rx="16" />
+  <rect width="100%" height="100%" fill="url(#glow-sambar_rice)" rx="16" />
+
+  <!-- Diet Badge -->
+  
+        <rect x="358" y="14" width="26" height="26" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="2" />
+        <circle cx="371" cy="27" r="6" fill="#16a34a" />
+        
+
+  <!-- Food Art Centerpiece -->
+  <g id="food-art" filter="url(#shadow-sambar_rice)">
+    
+        <ellipse cx="200" cy="168" rx="80" ry="18" fill="rgba(15,23,42,0.16)" />
+        <path d="M132 110 C 132 162, 160 172, 200 172 C 240 172, 268 162, 268 110 Z" fill="#78350f" />
+        <ellipse cx="200" cy="110" rx="68" ry="26" fill="#92400e" />
+        <!-- Sambar Rice -->
+        <ellipse cx="200" cy="108" rx="62" ry="21" fill="#d97706" />
+        <ellipse cx="200" cy="108" rx="54" ry="17" fill="#ea580c" />
+        <!-- Mustard seeds, cashews, curry leaves -->
+        <circle cx="178" cy="106" r="1.8" fill="#1e293b" />
+        <circle cx="220" cy="104" r="1.8" fill="#1e293b" />
+        <circle cx="196" cy="112" r="1.8" fill="#1e293b" />
+        <path d="M185 108 C 185 104, 192 104, 192 108 C 192 112, 185 112, 185 108 Z" fill="#fef08a" />
+        <path d="M210 110 C 210 106, 218 106, 218 110 C 218 114, 210 114, 210 110 Z" fill="#fef08a" />
+        <path d="M198 102 C 198 98, 204 98, 204 102 C 204 106, 198 106, 198 102 Z" fill="#15803d" />
+        <!-- Mini Papadum on Rim -->
+        <circle cx="150" cy="98" r="15" fill="#fef08a" stroke="#ca8a04" stroke-width="1.2" />
+        <circle cx="146" cy="94" r="1.5" fill="#92400e" />
+        <circle cx="152" cy="102" r="1.5" fill="#92400e" />
+        <!-- Steam -->
+        <path d="M200 70 Q 206 54 200 40" stroke="rgba(217,119,6,0.6)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+        
+  </g>
+
+  <!-- Title Pill -->
+  <g id="label-pill" filter="url(#pill-shadow)">
+    <rect x="65" y="194" width="270" height="42" rx="21" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2" />
+    <text x="200" y="212" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">South Indian Sambar Rice</text>
+    <text x="200" y="226" font-size="9.5" font-weight="500" fill="#64748b" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Tamarind &amp; Lentil Infused Rice Pot</text>
+  </g>
 </svg>

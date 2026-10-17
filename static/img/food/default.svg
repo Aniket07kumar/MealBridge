@@ -1,15 +1,56 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="100%" height="100%">
   <defs>
-    <linearGradient id="grad-default" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f8fafc" />
-      <stop offset="100%" stop-color="#ffffff" />
+    <linearGradient id="bg-default" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0fdf4" />
+      <stop offset="100%" stop-color="#ecfdf5" />
     </linearGradient>
+    <radialGradient id="glow-default" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow-default" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
+    <filter id="pill-shadow" x="-5%" y="-10%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
   </defs>
-  <rect width="100%" height="100%" fill="url(#grad-default)" />
-  <circle cx="200" cy="95" r="55" fill="#ffffff" stroke="#10b981" stroke-width="3" stroke-dasharray="4 2" />
-  <circle cx="200" cy="95" r="48" fill="#f8fafc" />
-  <text x="200" y="112" font-size="44" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">🍲</text>
-  <text x="200" y="178" font-size="18" font-weight="700" text-anchor="middle" fill="#1e293b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Cooked Meal</text>
-  <text x="200" y="202" font-size="12" font-weight="500" text-anchor="middle" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Prepared Food</text>
-  <rect x="160" y="215" width="80" height="4" rx="2" fill="#10b981" />
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="url(#bg-default)" rx="16" />
+  <rect width="100%" height="100%" fill="url(#glow-default)" rx="16" />
+
+  <!-- Diet Badge -->
+  
+        <rect x="358" y="14" width="26" height="26" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="2" />
+        <circle cx="371" cy="27" r="6" fill="#16a34a" />
+        
+
+  <!-- Food Art Centerpiece -->
+  <g id="food-art" filter="url(#shadow-default)">
+    
+        <ellipse cx="200" cy="170" rx="84" ry="18" fill="rgba(15,23,42,0.16)" />
+        <ellipse cx="200" cy="120" rx="80" ry="46" fill="#cbd5e1" />
+        <ellipse cx="200" cy="120" rx="74" ry="40" fill="#f8fafc" />
+        <!-- Serving Cloche / Warm Casserole Base -->
+        <path d="M140 120 C 140 156, 166 166, 200 166 C 234 166, 260 156, 260 120 Z" fill="#2563eb" />
+        <ellipse cx="200" cy="120" rx="60" ry="22" fill="#3b82f6" />
+        <!-- Warm Food Glow inside -->
+        <ellipse cx="200" cy="118" rx="52" ry="17" fill="#f59e0b" />
+        <ellipse cx="200" cy="118" rx="42" ry="13" fill="#fef08a" />
+        <!-- Heart / Care Symbol Rising -->
+        <path d="M200 95 C 190 75, 165 72, 165 92 C 165 110, 200 125, 200 125 C 200 125, 235 110, 235 92 C 235 72, 210 75, 200 95 Z" fill="#ef4444" opacity="0.9" />
+        <!-- Rising Steam Wisps -->
+        <path d="M182 66 Q 176 48 184 34" stroke="rgba(245,158,11,0.6)" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M200 62 Q 194 44 200 30" stroke="rgba(239,68,68,0.6)" stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d="M218 66 Q 224 48 216 34" stroke="rgba(245,158,11,0.6)" stroke-width="3" stroke-linecap="round" fill="none" />
+        
+  </g>
+
+  <!-- Title Pill -->
+  <g id="label-pill" filter="url(#pill-shadow)">
+    <rect x="65" y="194" width="270" height="42" rx="21" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2" />
+    <text x="200" y="212" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Wholesome Cooked Meal</text>
+    <text x="200" y="226" font-size="9.5" font-weight="500" fill="#64748b" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Fresh Prepared Food Ready for Community Pickup</text>
+  </g>
 </svg>

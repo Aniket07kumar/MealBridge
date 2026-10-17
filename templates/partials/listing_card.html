@@ -1,6 +1,6 @@
 <div class="listing-card" id="listing-{{ listing.id }}">
   <div class="listing-image-box">
-    <img src="{{ food_image(listing.food_key) }}" alt="{{ listing.food_name }}" class="listing-image" loading="lazy">
+    <img src="{{ food_image(listing.food_key) }}" alt="{{ listing.food_name }}" class="listing-image" loading="lazy" onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/food/default.svg') }}';">
     
     <div class="listing-badges">
       {% if listing.is_veg %}

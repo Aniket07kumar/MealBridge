@@ -1,15 +1,64 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="100%" height="100%">
   <defs>
-    <linearGradient id="grad-pav_bhaji" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bg-pav_bhaji" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#fff7ed" />
-      <stop offset="100%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#fed7aa" />
     </linearGradient>
+    <radialGradient id="glow-pav_bhaji" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow-pav_bhaji" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
+    <filter id="pill-shadow" x="-5%" y="-10%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
   </defs>
-  <rect width="100%" height="100%" fill="url(#grad-pav_bhaji)" />
-  <circle cx="200" cy="95" r="55" fill="#ffffff" stroke="#c2410c" stroke-width="3" stroke-dasharray="4 2" />
-  <circle cx="200" cy="95" r="48" fill="#fff7ed" />
-  <text x="200" y="112" font-size="44" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">🍞</text>
-  <text x="200" y="178" font-size="18" font-weight="700" text-anchor="middle" fill="#1e293b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Pav Bhaji</text>
-  <text x="200" y="202" font-size="12" font-weight="500" text-anchor="middle" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Mashed Spiced Veg & Buns</text>
-  <rect x="160" y="215" width="80" height="4" rx="2" fill="#c2410c" />
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="url(#bg-pav_bhaji)" rx="16" />
+  <rect width="100%" height="100%" fill="url(#glow-pav_bhaji)" rx="16" />
+
+  <!-- Diet Badge -->
+  
+        <rect x="358" y="14" width="26" height="26" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="2" />
+        <circle cx="371" cy="27" r="6" fill="#16a34a" />
+        
+
+  <!-- Food Art Centerpiece -->
+  <g id="food-art" filter="url(#shadow-pav_bhaji)">
+    
+        <ellipse cx="200" cy="170" rx="88" ry="18" fill="rgba(15,23,42,0.16)" />
+        <ellipse cx="200" cy="118" rx="86" ry="48" fill="#e2e8f0" />
+        <ellipse cx="200" cy="118" rx="82" ry="44" fill="#f8fafc" />
+        <!-- 2 Toasted Golden Pav Buns (Left) -->
+        <rect x="130" y="98" width="30" height="26" rx="6" fill="#f59e0b" stroke="#d97706" stroke-width="1.2" />
+        <rect x="133" y="100" width="24" height="20" rx="4" fill="#fbbf24" />
+        <rect x="162" y="98" width="30" height="26" rx="6" fill="#f59e0b" stroke="#d97706" stroke-width="1.2" />
+        <rect x="165" y="100" width="24" height="20" rx="4" fill="#fbbf24" />
+        <!-- Butter Glaze on Pav -->
+        <ellipse cx="145" cy="106" rx="6" ry="3" fill="#fef08a" />
+        <ellipse cx="177" cy="106" rx="6" ry="3" fill="#fef08a" />
+        <!-- Spicy Bhaji Pool (Right) -->
+        <ellipse cx="230" cy="116" rx="38" ry="26" fill="#ea580c" />
+        <ellipse cx="230" cy="115" rx="34" ry="22" fill="#c2410c" />
+        <!-- Butter Cube Melting in Center of Bhaji -->
+        <rect x="222" y="108" width="14" height="10" rx="2" fill="#fef08a" stroke="#facc15" stroke-width="1" />
+        <!-- Chopped Onions, Coriander, Lemon -->
+        <circle cx="214" cy="118" r="2.2" fill="#a855f7" />
+        <circle cx="242" cy="112" r="2.2" fill="#a855f7" />
+        <circle cx="238" cy="122" r="2" fill="#15803d" />
+        <path d="M254 122 L 262 120 L 258 128 Z" fill="#facc15" stroke="#ca8a04" stroke-width="1" />
+        <!-- Steam -->
+        <path d="M230 84 Q 236 70 230 56" stroke="rgba(234,88,12,0.5)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+        
+  </g>
+
+  <!-- Title Pill -->
+  <g id="label-pill" filter="url(#pill-shadow)">
+    <rect x="65" y="194" width="270" height="42" rx="21" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2" />
+    <text x="200" y="212" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Pav Bhaji</text>
+    <text x="200" y="226" font-size="9.5" font-weight="500" fill="#64748b" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Spiced Mashed Vegetable Bhaji &amp; Butter Pav</text>
+  </g>
 </svg>

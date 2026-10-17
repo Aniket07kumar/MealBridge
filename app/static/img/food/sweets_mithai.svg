@@ -1,15 +1,62 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="100%" height="100%">
   <defs>
-    <linearGradient id="grad-sweets_mithai" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fdf4ff" />
-      <stop offset="100%" stop-color="#ffffff" />
+    <linearGradient id="bg-sweets_mithai" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb" />
+      <stop offset="100%" stop-color="#fdf2f8" />
     </linearGradient>
+    <radialGradient id="glow-sweets_mithai" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow-sweets_mithai" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
+    <filter id="pill-shadow" x="-5%" y="-10%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
   </defs>
-  <rect width="100%" height="100%" fill="url(#grad-sweets_mithai)" />
-  <circle cx="200" cy="95" r="55" fill="#ffffff" stroke="#c026d3" stroke-width="3" stroke-dasharray="4 2" />
-  <circle cx="200" cy="95" r="48" fill="#fdf4ff" />
-  <text x="200" y="112" font-size="44" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">🍬</text>
-  <text x="200" y="178" font-size="18" font-weight="700" text-anchor="middle" fill="#1e293b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Mithai & Halwa</text>
-  <text x="200" y="202" font-size="12" font-weight="500" text-anchor="middle" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Fresh Festive Desserts</text>
-  <rect x="160" y="215" width="80" height="4" rx="2" fill="#c026d3" />
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="url(#bg-sweets_mithai)" rx="16" />
+  <rect width="100%" height="100%" fill="url(#glow-sweets_mithai)" rx="16" />
+
+  <!-- Diet Badge -->
+  
+        <rect x="358" y="14" width="26" height="26" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="2" />
+        <circle cx="371" cy="27" r="6" fill="#16a34a" />
+        
+
+  <!-- Food Art Centerpiece -->
+  <g id="food-art" filter="url(#shadow-sweets_mithai)">
+    
+        <ellipse cx="200" cy="170" rx="88" ry="18" fill="rgba(15,23,42,0.16)" />
+        <!-- Silver Festive Thali -->
+        <ellipse cx="200" cy="118" rx="86" ry="48" fill="#94a3b8" />
+        <ellipse cx="200" cy="118" rx="82" ry="44" fill="#e2e8f0" />
+        <ellipse cx="200" cy="118" rx="78" ry="40" fill="#f1f5f9" />
+        <!-- Halwa Mound (Center) -->
+        <ellipse cx="200" cy="120" rx="36" ry="20" fill="#d97706" />
+        <ellipse cx="200" cy="118" rx="30" ry="16" fill="#f59e0b" />
+        <!-- Silver Kaju Katli (Left) -->
+        <polygon points="152,98 168,110 152,122 136,110" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.2" />
+        <polygon points="152,100 165,110 152,120 139,110" fill="#ffffff" />
+        <!-- Motichoor Laddoos (Right) -->
+        <circle cx="242" cy="112" r="14" fill="#ea580c" stroke="#c2410c" stroke-width="1" />
+        <circle cx="242" cy="110" r="12" fill="#f97316" />
+        <circle cx="236" cy="125" r="12" fill="#ea580c" stroke="#c2410c" stroke-width="1" />
+        <circle cx="236" cy="124" r="10" fill="#f97316" />
+        <!-- Pistachio & Saffron Garnishes -->
+        <circle cx="196" cy="116" r="2" fill="#16a34a" />
+        <circle cx="204" cy="118" r="2" fill="#16a34a" />
+        <circle cx="198" cy="122" r="2" fill="#16a34a" />
+        <line x1="200" y1="112" x2="204" y2="116" stroke="#dc2626" stroke-width="1.5" />
+        
+  </g>
+
+  <!-- Title Pill -->
+  <g id="label-pill" filter="url(#pill-shadow)">
+    <rect x="65" y="194" width="270" height="42" rx="21" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2" />
+    <text x="200" y="212" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Assorted Halwa &amp; Mithai</text>
+    <text x="200" y="226" font-size="9.5" font-weight="500" fill="#64748b" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Festive Moong Dal Halwa, Laddoos &amp; Katli</text>
+  </g>
 </svg>

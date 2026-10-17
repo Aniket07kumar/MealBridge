@@ -1,15 +1,63 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="100%" height="100%">
   <defs>
-    <linearGradient id="grad-dosa_pack" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bg-dosa_pack" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#fffbeb" />
-      <stop offset="100%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#fef3c7" />
     </linearGradient>
+    <radialGradient id="glow-dosa_pack" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow-dosa_pack" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
+    <filter id="pill-shadow" x="-5%" y="-10%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
   </defs>
-  <rect width="100%" height="100%" fill="url(#grad-dosa_pack)" />
-  <circle cx="200" cy="95" r="55" fill="#ffffff" stroke="#d97706" stroke-width="3" stroke-dasharray="4 2" />
-  <circle cx="200" cy="95" r="48" fill="#fffbeb" />
-  <text x="200" y="112" font-size="44" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">🥞</text>
-  <text x="200" y="178" font-size="18" font-weight="700" text-anchor="middle" fill="#1e293b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Crisp Dosa</text>
-  <text x="200" y="202" font-size="12" font-weight="500" text-anchor="middle" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">With Sambar & Chutney</text>
-  <rect x="160" y="215" width="80" height="4" rx="2" fill="#d97706" />
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="url(#bg-dosa_pack)" rx="16" />
+  <rect width="100%" height="100%" fill="url(#glow-dosa_pack)" rx="16" />
+
+  <!-- Diet Badge -->
+  
+        <rect x="358" y="14" width="26" height="26" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="2" />
+        <circle cx="371" cy="27" r="6" fill="#16a34a" />
+        
+
+  <!-- Food Art Centerpiece -->
+  <g id="food-art" filter="url(#shadow-dosa_pack)">
+    
+        <ellipse cx="200" cy="170" rx="88" ry="18" fill="rgba(15,23,42,0.15)" />
+        <!-- Platter -->
+        <ellipse cx="200" cy="118" rx="86" ry="48" fill="#e2e8f0" />
+        <ellipse cx="200" cy="118" rx="82" ry="44" fill="#f8fafc" />
+        <!-- Golden Rolled Dosa -->
+        <path d="M125 125 C 130 105, 230 85, 265 105 C 270 120, 240 135, 145 138 Z" fill="#d97706" />
+        <path d="M130 123 C 135 108, 225 90, 258 107 C 248 116, 175 128, 142 129 Z" fill="#f59e0b" />
+        <!-- Dosa porous roasted brown marks -->
+        <line x1="165" y1="112" x2="175" y2="114" stroke="#92400e" stroke-width="2" stroke-linecap="round" />
+        <line x1="190" y1="108" x2="202" y2="111" stroke="#92400e" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="220" y1="105" x2="232" y2="108" stroke="#92400e" stroke-width="2" stroke-linecap="round" />
+        <!-- 3 Dip Bowls (Front) -->
+        <!-- Sambar -->
+        <ellipse cx="152" cy="138" rx="18" ry="12" fill="#94a3b8" />
+        <ellipse cx="152" cy="137" rx="15" ry="10" fill="#ea580c" />
+        <!-- Coconut Chutney -->
+        <ellipse cx="195" cy="142" rx="18" ry="12" fill="#94a3b8" />
+        <ellipse cx="195" cy="141" rx="15" ry="10" fill="#ffffff" />
+        <circle cx="195" cy="140" r="1.5" fill="#1e293b" />
+        <!-- Tomato Chutney -->
+        <ellipse cx="238" cy="138" rx="18" ry="12" fill="#94a3b8" />
+        <ellipse cx="238" cy="137" rx="15" ry="10" fill="#dc2626" />
+        
+  </g>
+
+  <!-- Title Pill -->
+  <g id="label-pill" filter="url(#pill-shadow)">
+    <rect x="65" y="194" width="270" height="42" rx="21" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2" />
+    <text x="200" y="212" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Crispy Dosa Platter</text>
+    <text x="200" y="226" font-size="9.5" font-weight="500" fill="#64748b" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Golden Rolled Crepe, Sambar &amp; Chutneys</text>
+  </g>
 </svg>

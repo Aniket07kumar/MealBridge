@@ -1,15 +1,62 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="100%" height="100%">
   <defs>
-    <linearGradient id="grad-mix_veg_sabzi" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bg-mix_veg_sabzi" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#f0fdf4" />
-      <stop offset="100%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#fef3c7" />
     </linearGradient>
+    <radialGradient id="glow-mix_veg_sabzi" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow-mix_veg_sabzi" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
+    <filter id="pill-shadow" x="-5%" y="-10%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
   </defs>
-  <rect width="100%" height="100%" fill="url(#grad-mix_veg_sabzi)" />
-  <circle cx="200" cy="95" r="55" fill="#ffffff" stroke="#15803d" stroke-width="3" stroke-dasharray="4 2" />
-  <circle cx="200" cy="95" r="48" fill="#f0fdf4" />
-  <text x="200" y="112" font-size="44" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">🥗</text>
-  <text x="200" y="178" font-size="18" font-weight="700" text-anchor="middle" fill="#1e293b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Mix Veg Curry</text>
-  <text x="200" y="202" font-size="12" font-weight="500" text-anchor="middle" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Seasonal Veggie Delight</text>
-  <rect x="160" y="215" width="80" height="4" rx="2" fill="#15803d" />
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="url(#bg-mix_veg_sabzi)" rx="16" />
+  <rect width="100%" height="100%" fill="url(#glow-mix_veg_sabzi)" rx="16" />
+
+  <!-- Diet Badge -->
+  
+        <rect x="358" y="14" width="26" height="26" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="2" />
+        <circle cx="371" cy="27" r="6" fill="#16a34a" />
+        
+
+  <!-- Food Art Centerpiece -->
+  <g id="food-art" filter="url(#shadow-mix_veg_sabzi)">
+    
+        <ellipse cx="200" cy="168" rx="82" ry="18" fill="rgba(15,23,42,0.16)" />
+        <path d="M132 108 C 132 160, 162 170, 200 170 C 238 170, 268 160, 268 108 Z" fill="#b45309" />
+        <ellipse cx="200" cy="108" rx="68" ry="26" fill="#d97706" />
+        <!-- Gravy -->
+        <ellipse cx="200" cy="106" rx="62" ry="21" fill="#ea580c" />
+        <!-- Colorful Vegetable Medley -->
+        <!-- Cauliflower Florets -->
+        <ellipse cx="170" cy="102" rx="8" ry="6" fill="#ffffff" stroke="#f1f5f9" stroke-width="1" />
+        <ellipse cx="218" cy="100" rx="8" ry="6" fill="#ffffff" stroke="#f1f5f9" stroke-width="1" />
+        <!-- Green Beans & Peas -->
+        <line x1="184" y1="104" x2="198" y2="100" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+        <circle cx="160" cy="112" r="4" fill="#22c55e" />
+        <circle cx="202" cy="114" r="4" fill="#22c55e" />
+        <circle cx="232" cy="108" r="4" fill="#22c55e" />
+        <!-- Carrots & Potato Cubes -->
+        <rect x="180" y="108" width="8" height="8" rx="1.5" fill="#f97316" />
+        <rect x="214" y="110" width="8" height="8" rx="1.5" fill="#fde047" />
+        <!-- Coriander -->
+        <path d="M194 106 C 194 101, 200 101, 200 106 C 200 111, 194 111, 194 106 Z" fill="#15803d" />
+        <!-- Steam -->
+        <path d="M200 70 Q 194 54 200 40" stroke="rgba(234,88,12,0.5)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+        
+  </g>
+
+  <!-- Title Pill -->
+  <g id="label-pill" filter="url(#pill-shadow)">
+    <rect x="65" y="194" width="270" height="42" rx="21" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2" />
+    <text x="200" y="212" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Mixed Vegetable Curry</text>
+    <text x="200" y="226" font-size="9.5" font-weight="500" fill="#64748b" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Homestyle Seasonal Veggie Medley</text>
+  </g>
 </svg>

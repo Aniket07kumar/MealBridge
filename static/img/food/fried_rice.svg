@@ -1,15 +1,63 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="100%" height="100%">
   <defs>
-    <linearGradient id="grad-fried_rice" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f0fdf4" />
-      <stop offset="100%" stop-color="#ffffff" />
+    <linearGradient id="bg-fried_rice" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fefce8" />
+      <stop offset="100%" stop-color="#ffedd5" />
     </linearGradient>
+    <radialGradient id="glow-fried_rice" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow-fried_rice" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
+    <filter id="pill-shadow" x="-5%" y="-10%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
   </defs>
-  <rect width="100%" height="100%" fill="url(#grad-fried_rice)" />
-  <circle cx="200" cy="95" r="55" fill="#ffffff" stroke="#16a34a" stroke-width="3" stroke-dasharray="4 2" />
-  <circle cx="200" cy="95" r="48" fill="#f0fdf4" />
-  <text x="200" y="112" font-size="44" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">🥢</text>
-  <text x="200" y="178" font-size="18" font-weight="700" text-anchor="middle" fill="#1e293b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Fried Rice</text>
-  <text x="200" y="202" font-size="12" font-weight="500" text-anchor="middle" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Veggie Stir-fry</text>
-  <rect x="160" y="215" width="80" height="4" rx="2" fill="#16a34a" />
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="url(#bg-fried_rice)" rx="16" />
+  <rect width="100%" height="100%" fill="url(#glow-fried_rice)" rx="16" />
+
+  <!-- Diet Badge -->
+  
+        <rect x="358" y="14" width="26" height="26" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="2" />
+        <circle cx="371" cy="27" r="6" fill="#16a34a" />
+        
+
+  <!-- Food Art Centerpiece -->
+  <g id="food-art" filter="url(#shadow-fried_rice)">
+    
+        <!-- Wok Bowl -->
+        <ellipse cx="200" cy="168" rx="82" ry="18" fill="rgba(15,23,42,0.18)" />
+        <path d="M128 108 C 128 160, 160 170, 200 170 C 240 170, 272 160, 272 108 Z" fill="#1e293b" />
+        <ellipse cx="200" cy="108" rx="72" ry="26" fill="#334155" />
+        <ellipse cx="200" cy="107" rx="66" ry="22" fill="#fef3c7" />
+        <!-- Wok Grains & Colored Diced Veg -->
+        <ellipse cx="200" cy="105" rx="58" ry="18" fill="#fde68a" />
+        <rect x="170" y="100" width="5" height="5" rx="1" fill="#f97316" />
+        <rect x="210" y="98" width="5" height="5" rx="1" fill="#f97316" />
+        <rect x="190" y="110" width="5.5" height="5.5" rx="1" fill="#f97316" />
+        <circle cx="160" cy="106" r="3.5" fill="#22c55e" />
+        <circle cx="182" cy="102" r="3.5" fill="#22c55e" />
+        <circle cx="225" cy="104" r="3.5" fill="#22c55e" />
+        <circle cx="202" cy="112" r="3.5" fill="#22c55e" />
+        <circle cx="178" cy="111" r="3" fill="#eab308" />
+        <circle cx="218" cy="110" r="3" fill="#eab308" />
+        <!-- Spring Onion Slices -->
+        <rect x="195" y="99" width="7" height="3" rx="1" fill="#15803d" transform="rotate(25 195 99)" />
+        <rect x="170" y="108" width="7" height="3" rx="1" fill="#15803d" transform="rotate(-20 170 108)" />
+        <!-- Chopsticks resting across rim -->
+        <line x1="140" y1="80" x2="250" y2="128" stroke="#78350f" stroke-width="4" stroke-linecap="round" />
+        <line x1="145" y1="74" x2="255" y2="122" stroke="#92400e" stroke-width="3" stroke-linecap="round" />
+        
+  </g>
+
+  <!-- Title Pill -->
+  <g id="label-pill" filter="url(#pill-shadow)">
+    <rect x="65" y="194" width="270" height="42" rx="21" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2" />
+    <text x="200" y="212" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Vegetable Fried Rice</text>
+    <text x="200" y="226" font-size="9.5" font-weight="500" fill="#64748b" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Wok-Tossed Garden Vegetables &amp; Rice</text>
+  </g>
 </svg>

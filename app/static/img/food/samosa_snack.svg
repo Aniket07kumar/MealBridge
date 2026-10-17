@@ -1,15 +1,61 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="100%" height="100%">
   <defs>
-    <linearGradient id="grad-samosa_snack" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fffbeb" />
-      <stop offset="100%" stop-color="#ffffff" />
+    <linearGradient id="bg-samosa_snack" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff7ed" />
+      <stop offset="100%" stop-color="#fed7aa" />
     </linearGradient>
+    <radialGradient id="glow-samosa_snack" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow-samosa_snack" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
+    <filter id="pill-shadow" x="-5%" y="-10%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
   </defs>
-  <rect width="100%" height="100%" fill="url(#grad-samosa_snack)" />
-  <circle cx="200" cy="95" r="55" fill="#ffffff" stroke="#d97706" stroke-width="3" stroke-dasharray="4 2" />
-  <circle cx="200" cy="95" r="48" fill="#fffbeb" />
-  <text x="200" y="112" font-size="44" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">🥟</text>
-  <text x="200" y="178" font-size="18" font-weight="700" text-anchor="middle" fill="#1e293b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Samosa & Snacks</text>
-  <text x="200" y="202" font-size="12" font-weight="500" text-anchor="middle" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto">Golden Crisp Savories</text>
-  <rect x="160" y="215" width="80" height="4" rx="2" fill="#d97706" />
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="url(#bg-samosa_snack)" rx="16" />
+  <rect width="100%" height="100%" fill="url(#glow-samosa_snack)" rx="16" />
+
+  <!-- Diet Badge -->
+  
+        <rect x="358" y="14" width="26" height="26" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="2" />
+        <circle cx="371" cy="27" r="6" fill="#16a34a" />
+        
+
+  <!-- Food Art Centerpiece -->
+  <g id="food-art" filter="url(#shadow-samosa_snack)">
+    
+        <ellipse cx="200" cy="170" rx="88" ry="18" fill="rgba(15,23,42,0.16)" />
+        <!-- Slate Serving Platter -->
+        <ellipse cx="200" cy="118" rx="86" ry="46" fill="#334155" />
+        <ellipse cx="200" cy="118" rx="82" ry="42" fill="#1e293b" />
+        <!-- 2 Golden Triangular Samosas -->
+        <!-- Samosa 1 (Left) -->
+        <polygon points="160,82 125,135 190,132" fill="#d97706" stroke="#b45309" stroke-width="1.5" />
+        <polygon points="160,85 130,132 186,130" fill="#f59e0b" />
+        <line x1="160" y1="85" x2="158" y2="131" stroke="#b45309" stroke-width="1.5" opacity="0.7" />
+        <!-- Samosa 2 (Right) -->
+        <polygon points="215,86 178,136 248,132" fill="#d97706" stroke="#b45309" stroke-width="1.5" />
+        <polygon points="215,89 183,133 244,130" fill="#fbbf24" />
+        <line x1="215" y1="89" x2="213" y2="131" stroke="#b45309" stroke-width="1.5" opacity="0.7" />
+        <!-- Chutney Splashes -->
+        <!-- Green Mint Chutney Swirl -->
+        <ellipse cx="140" cy="140" rx="14" ry="7" fill="#16a34a" />
+        <!-- Tamarind Sweet Chutney Swirl -->
+        <ellipse cx="235" cy="138" rx="14" ry="7" fill="#78350f" />
+        <!-- Fried Green Chili -->
+        <path d="M185 136 Q 198 132 205 138" stroke="#15803d" stroke-width="3" stroke-linecap="round" fill="none" />
+        
+  </g>
+
+  <!-- Title Pill -->
+  <g id="label-pill" filter="url(#pill-shadow)">
+    <rect x="65" y="194" width="270" height="42" rx="21" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2" />
+    <text x="200" y="212" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Samosa &amp; Savory Snacks</text>
+    <text x="200" y="226" font-size="9.5" font-weight="500" fill="#64748b" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Crispy Golden Samosas &amp; Tangy Chutneys</text>
+  </g>
 </svg>

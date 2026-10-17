@@ -29,7 +29,7 @@
           <div class="food-picker-grid">
             {% for food in catalog %}
               <div class="food-picker-item" data-key="{{ food.key }}" data-name="{{ food.name }}" data-veg="{{ 'true' if food.is_veg else 'false' }}">
-                <img src="{{ food_image(food.key) }}" alt="{{ food.name }}" class="food-picker-img" loading="lazy">
+                <img src="{{ food_image(food.key) }}" alt="{{ food.name }}" class="food-picker-img" loading="lazy" onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/food/default.svg') }}';">
                 <div class="food-picker-name">{{ food.name }}</div>
                 <div style="font-size: 0.7rem; color: {{ 'var(--primary)' if food.is_veg else 'var(--danger)' }}; font-weight: 700; margin-top: 2px;">
                   {{ '🌿 Veg' if food.is_veg else '🍖 Non-Veg' }}
